@@ -64,6 +64,16 @@ class LetterAdapter :
         val item = list.get(position)
         holder.button.text = item.toString()
 
+        holder.button.setOnClickListener {
+
+            val context = holder.view.context
+
+            val intent = Intent(context, DetailActivity::class.java)
+
+            intent.putExtra("letter", holder.button.text.toString())
+
+            context.startActivity(intent)
+        }
     }
 
     // Setup custom accessibility delegate to set the text read with
