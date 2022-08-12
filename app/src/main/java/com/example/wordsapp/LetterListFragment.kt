@@ -9,11 +9,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wordsapp.databinding.FragmentLetterListBinding
 
-
+/**
+ * Entry fragment for the app. Displays a [RecyclerView] of letters.
+ */
 class LetterListFragment : Fragment() {
 
     private var _binding: FragmentLetterListBinding? = null
 
+    // This property is only valid between onCreateView and
+    // onDestroyView.
     private val binding get() = _binding!!
 
     private lateinit var recyclerView: RecyclerView
@@ -33,6 +37,7 @@ class LetterListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        // Retrieve and inflate the layout for this fragment
         _binding = FragmentLetterListBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -42,6 +47,8 @@ class LetterListFragment : Fragment() {
 
         recyclerView = binding.recyclerView
 
+        // Sets the LayoutManager of the recyclerview
+        // On the first run of the app, it will be LinearLayoutManager
         chooseLayout()
     }
 
@@ -67,12 +74,6 @@ class LetterListFragment : Fragment() {
             return
 
         // Set the drawable for the menu icon based on which LayoutManager is currently in use
-
-        // An if-clause can be used on the right side of an assignment if all paths return a value.
-        // The following code is equivalent to
-        // if (isLinearLayoutManager)
-        //     menu.icon = ContextCompat.getDrawable(this, R.drawable.ic_grid_layout)
-        // else menu.icon = ContextCompat.getDrawable(this, R.drawable.ic_linear_layout)
         menuItem.icon =
             if (isLinearLayoutManager)
                 ContextCompat.getDrawable(this.requireContext(), R.drawable.ic_grid_layout)
@@ -113,6 +114,9 @@ class LetterListFragment : Fragment() {
         setIcon(layoutButton)
     }
 
+    /**
+     * Frees the binding object when the Fragment is destroyed.
+     */
     override fun onDestroy() {
         super.onDestroy()
 
