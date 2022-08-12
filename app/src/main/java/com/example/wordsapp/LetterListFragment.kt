@@ -1,11 +1,8 @@
 package com.example.wordsapp
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -107,6 +104,13 @@ class LetterListFragment : Fragment() {
             //  or an else to catch all unhandled cases.
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.layout_menu, menu)
+
+        val layoutButton = menu.findItem(R.id.action_switch_layout)
+        setIcon(layoutButton)
     }
 
     override fun onDestroy() {
