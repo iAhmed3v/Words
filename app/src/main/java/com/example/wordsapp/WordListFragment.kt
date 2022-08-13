@@ -10,10 +10,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wordsapp.databinding.FragmentLetterListBinding
 import com.example.wordsapp.databinding.FragmentWordListBinding
 
+/**
+ * Displays a [RecyclerView] of words with search buttons to look them up.
+ */
 class WordListFragment : Fragment() {
 
-    private lateinit var letterId: String
-
+    /**
+     * Provides global access to these variables from anywhere in the app
+     * via DetailListFragment.<variable> without needing to create
+     * a DetailListFragment instance.
+     */
     companion object {
         const val LETTER = "letter"
         const val SEARCH_PREFIX = "https://www.google.com/search?q="
@@ -21,16 +27,18 @@ class WordListFragment : Fragment() {
 
     private var _binding: FragmentWordListBinding? = null
 
+    // This property is only valid between onCreateView and
+    // onDestroyView.
     private val binding get() = _binding!!
+
+    private lateinit var letterId: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        arguments?.let {
-
-            letterId = it.getString(LETTER).toString()
-        }
+        // Retrieve the LETTER from the Fragment arguments
+        arguments?.let { letterId = it.getString(LETTER).toString() }
     }
 
 
@@ -40,6 +48,7 @@ class WordListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        // Retrieve and inflate the layout for this fragment
         _binding = FragmentWordListBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -59,6 +68,9 @@ class WordListFragment : Fragment() {
         )
     }
 
+    /**
+     * Frees the binding object when the Fragment is destroyed.
+     */
     override fun onDestroy() {
         super.onDestroy()
 
