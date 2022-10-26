@@ -21,12 +21,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.example.wordsapp"
         minSdkVersion 19
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
 
@@ -60,7 +60,9 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayout_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
     androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.4.0'
-    androidTestImplementation 'androidx.navigation:navigation-testing:2.5.1'
-    debugImplementation 'androidx.fragment:fragment-testing:1.5.2'
+    androidTestImplementation 'androidx.navigation:navigation-testing:2.5.3'
+    debugImplementation 'androidx.fragment:fragment-testing:1.5.4'
 }
