@@ -4,10 +4,14 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.wordsapp.data.SettingsDataStore
 import com.example.wordsapp.databinding.FragmentLetterListBinding
+import kotlinx.coroutines.launch
 
 /**
  * Entry fragment for the app. Displays a [RecyclerView] of letters.
@@ -24,6 +28,8 @@ class LetterListFragment : Fragment() {
 
     // Keeps track of which LayoutManager is in use for the [RecyclerView]
     private var isLinearLayoutManager = true
+
+    private lateinit var settingsDataStore: SettingsDataStore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +56,14 @@ class LetterListFragment : Fragment() {
         // Sets the LayoutManager of the recyclerview
         // On the first run of the app, it will be LinearLayoutManager
         chooseLayout()
+
+        // Initialize SettingsDataStore
+        settingsDataStore = SettingsDataStore(requireContext())
+
+        settingsDataStore.preferenceFlow.asLiveData().observe(viewLifecycleOwner) { value ->
+            isLinearLayoutManager = value
+            chooseLayout()
+        }
     }
 
 
@@ -83,6 +97,7 @@ class LetterListFragment : Fragment() {
     /**
      * Determines how to handle interactions with the selected [MenuItem]
      */
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
 
@@ -91,6 +106,10 @@ class LetterListFragment : Fragment() {
                 // Sets isLinearLayoutManager (a Boolean) to the opposite value
                 isLinearLayoutManager = !isLinearLayoutManager
 
+                // Launch a coroutine and write the layout setting in the preference Datastore
+                lifecycleScope.launch {
+                    settingsDataStore.saveLayoutToPreferencesStore(isLinearLayoutManager, requireContext())
+                }
                 // Sets layout and icon
                 chooseLayout()
                 setIcon(item)
